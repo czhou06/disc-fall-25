@@ -1,42 +1,128 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+
+:root {
+  --nu-purple: #4E2A84;
+  --teal: #008080;
+  --black: #000000;
+  --bright-gray: #D9D9D9;
+  --gray: #333;
+  --white: #FFFFFF;
+  --font: "Helvetica", sans-serif;
+} 
+
+ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+a {
+  color: var(--white);
+  font-family: var(--font);
+  justify-content: space-between;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+header {
+  background-color: var(--nu-purple);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+header nav {
+  border-left: 10px solid var(--bright-gray); 
+}
+
+
+nav ul {
+  display: flex;     
+  list-style: none;  
+  gap: 1.5rem;       
+}
+
+footer {
+  display: flex;
+  background: var(--black);
+  align-items: center;
+  justify-content: space-between;
+  color: var(--white);
+  padding: 0rem 1rem;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding:1rem
+}
+
+#search-bar {
+  width: 40%;
+  padding: 0.5rem 1rem; 
+  border: none;           
+  border-radius: 8px;
+  border-left:   10px solid var(--bright-gray);   
+}
+
+
+body {
+  font-family: var(--font);
+  color: var(--gray);
+  background-color: var(--white);
+}
+
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.cards {
+  display: flex;
+  padding: 1rem;
+  gap: 1rem;
+  overflow-x: auto;
 }
 
 .card {
-  padding: 2em;
+  min-width: 250px;
+  padding: 1rem;
+  border-radius: 16px;
+  background-color: var(--bright-gray);
+  border-left: 30px solid var(--teal); 
 }
 
-.read-the-docs {
-  color: #888;
+.card-liked {
+  border-left: 30px solid var(--nu-purple) !important; 
+}
+
+.logo-circle {
+  height: 50px;           
+  width: 50px;            
+  background-color: var(--nu-purple); 
+  border-radius: 50%;     
+  display: flex;
+  justify-content: center;  
+  align-items: center;    
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+h2, h3 {
+  font-family: var(--font);
+}
+
+h1 {
+  font-family: var(--font);
+  text-align: center; 
+}
+
+.link {
+  padding:1rem;
+}
+
+button {
+  float: right;
+
 }
