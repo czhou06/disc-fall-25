@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 function NavBar(){
   return (
     <header>
@@ -13,13 +15,13 @@ function NavBar(){
         />
         <ul>
           <li>
-            <a href="#">Hangouts</a>
+            <Link to="/">Hangouts</Link>
           </li>
           <li>
-            <a href="#">Friends</a>
+            <Link to="/">Friends</Link>
           </li>
           <li>
-            <a href="#">Me</a>
+            <Link to="/profile">Me</Link>
           </li>
         </ul>
       </nav>

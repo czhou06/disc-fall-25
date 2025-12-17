@@ -24,6 +24,9 @@ function HomePage() {
         people: []
     });
 
+    const [users, setUsers] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
+
     const toggleLiked = (id, type) => {
         setLikedCards(stt => {
 
@@ -48,6 +51,38 @@ function HomePage() {
         console.log('Liked items updated:', likedCards);
     }, [likedCards]);
 
+    useEffect(() => {
+        const fetchUsers = async() => {
+            setIsLoading(true);
+
+            try {
+                const response = await fetch('https://disc-assignment-5-users-api-iyct.onrender.com/api/users');
+                if (!response.ok) {
+                    console.error("API failed:", response.status);
+                    return; 
+                }
+                
+                const data = await response.json();
+                setUsers(data)
+            }
+            catch (e) {
+                console.error("Network/JSON error:", e);
+            }
+            finally {
+                setIsLoading(false);
+            }
+            
+        }
+
+        fetchUsers();
+    }, [])
+
+    useEffect(() => {
+        console.log("user data: ", users);
+    }, [users])
+
+    
+
     return (
         <main>
             <h1>Welcome Back, {Username}!</h1>
@@ -70,14 +105,19 @@ function HomePage() {
             <section>
                 <h2>People for You</h2>
                 <div className="cards">
-                    {initialPeople.map(person => (
-                        <Card
-                            key={person.id}
-                            type="person"
-                            info={person}
-                            isLiked={likedCards.people.includes(person.id)}
-                            onLikeToggle={toggleLiked}
-                        />
+                    {isLoading ? (
+                        <p>Loading users...</p>
+                    ) : users.lengths === 0 ? (
+                        <p>No users found or failed to load. Try refreshing</p>
+                    ) :
+                        users.map(person => (
+                            <Card
+                                key={person.id}
+                                type="person"
+                                info={person}
+                                isLiked={likedCards.people.includes(person.id)}
+                                onLikeToggle={toggleLiked}
+                            />
                     ))}
                 </div>
             </section>
