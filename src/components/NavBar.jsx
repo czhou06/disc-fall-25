@@ -4,7 +4,7 @@ function NavBar(){
   return (
     <header>
       <nav>
-        <a href="#">CatsConnect</a>
+        <Link to="/">CatsConnect</Link>
         <label htmlFor="search-bar" className="hidden">
           Who are we meeting today?
         </label>
