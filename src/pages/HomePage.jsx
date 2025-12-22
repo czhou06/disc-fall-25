@@ -26,6 +26,7 @@ function HomePage() {
 
     const [users, setUsers] = useState([])
     const [isLoading, setIsLoading] = useState(true);
+    const API_URL = import.meta.env.VITE_API_URL
 
     const toggleLiked = (id, type) => {
         setLikedCards(stt => {
@@ -56,7 +57,7 @@ function HomePage() {
             setIsLoading(true);
 
             try {
-                const response = await fetch('https://disc-assignment-5-users-api-iyct.onrender.com/api/users');
+                const response = await fetch(`${API_URL}/users`);
                 if (!response.ok) {
                     console.error("API failed:", response.status);
                     return; 
@@ -107,7 +108,7 @@ function HomePage() {
                 <div className="cards">
                     {isLoading ? (
                         <p>Loading users...</p>
-                    ) : users.lengths === 0 ? (
+                    ) : users.length === 0 ? (
                         <p>No users found or failed to load. Try refreshing</p>
                     ) :
                         users.map(person => (
