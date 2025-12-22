@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Card from "../components/Card";
+import { CURRENT_USER } from "../constants";
 
 const initialHangouts = [
     { id: 10, name: "Study Session", location: "Main Library", dateTime: "10/15 3pm", organizer: "Alice" },
@@ -14,7 +15,8 @@ const initialPeople = [
     { id: 31, name: "Willie", dorm: "Shepard", major: "Psych", quote: "idk" }
 ];
 
-const Username = "Chris"
+const FirstName = CURRENT_USER.first_name;
+const LastName = CURRENT_USER.last_name;
 
 
 
@@ -86,7 +88,7 @@ function HomePage() {
 
     return (
         <main>
-            <h1>Welcome Back, {Username}!</h1>
+            <h1>Welcome Back, {FirstName} {LastName}!</h1>
 
             <section>
                 <h2>Hangouts for You</h2>
@@ -107,7 +109,7 @@ function HomePage() {
                 <h2>People for You</h2>
                 <div className="cards">
                     {isLoading ? (
-                        <p>Loading users...</p>
+                        <h1>Loading users...</h1>
                     ) : users.length === 0 ? (
                         <p>No users found or failed to load. Try refreshing</p>
                     ) :

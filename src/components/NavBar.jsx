@@ -21,7 +21,7 @@ function NavBar(){
             <Link to="/">Friends</Link>
           </li>
           <li>
-            <Link to="/profile">Me</Link>
+            <Link to="/profile/me">Me</Link>
           </li>
         </ul>
       </nav>
