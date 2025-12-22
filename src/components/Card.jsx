@@ -14,10 +14,10 @@ function Card({ type, info, isLiked, onLikeToggle }) {
   } else if (type === 'person') {
     details = (
       <>
-        <h3>{info.first_name} {info.last_name}</h3>
-        <h3>Class of {info.graduation_year}</h3>
+        <h3>{info.firstName} {info.lastName}</h3>
+        <h3>{info.graduationYear}</h3>
         <h3>{info.major}</h3>
-        <h3>{info.email}</h3>
+        <h3>{info.bio}</h3>
       </>
     );
   }
