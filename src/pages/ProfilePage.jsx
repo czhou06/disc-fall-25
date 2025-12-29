@@ -1,25 +1,36 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
-import { CURRENT_USER } from "../constants";
+import { supabase } from "../supabaseClient"
 
 function ProfilePage() {
     const params = useParams();
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isOwnProfile, setIsOwnProfile] = useState(false); // New State to track ownership
     const API_URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
-        const ID = (!params.id || params.id === 'me')
-            ? CURRENT_USER.id
-            : params.id;
-
         const fetchUser = async () => {
             setIsLoading(true);
+            let id = params.id;
+            const { data: { session } } = await supabase.auth.getSession();
+
+            if (!id || id === 'me') {
+                if (!session) {
+                    console.error("No current log-in session");
+                    setIsLoading(false);
+                    return;
+                }
+                id = session.user.id;
+                setIsOwnProfile(true);
+            }
 
             try {
-                const response = await fetch(`${API_URL}/users/${ID}`);
+                const response = await fetch(`${API_URL}/users/${id}`);
                 if (!response.ok) {
                     console.error("API failed:", response.status);
+                    setUser(null)
                     return;
                 }
 
@@ -27,7 +38,7 @@ function ProfilePage() {
                 setUser(data);
 
             } catch (e) {
-                console.e("Network/JSON error:", e);
+                console.error("Network/JSON error:", e);
             } finally {
                 setIsLoading(false);
             }
@@ -37,11 +48,20 @@ function ProfilePage() {
 
     }, [params.id]);
 
+    const handleSignOut = async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+            console.error("Error signing out:", error);
+        } else {
+            navigate("/");
+        }
+    };
+
     return (
         <main>
             {isLoading ? (
                 <h1>Loading...</h1>
-            ) : user.length === 0 ? (
+            ) : !user ? (
                 <div>
                     <h1>No users found or failed to load. </h1>
                     <h1>Try refreshing</h1>
@@ -49,11 +69,21 @@ function ProfilePage() {
             ) :
                 <div>
                     <h1> {user.first_name} {user.last_name}</h1>
-                    <h2 style={{textAlign: "center"}}>Email: {user.email}</h2>
-                    <h2 style={{textAlign: "center"}}>Major: {user.major}</h2>
-                    <h2 style={{textAlign: "center"}}>Class of {user.graduation_year}</h2>
-                    <h2 style={{textAlign: "center"}}>"{user.bio}"</h2>
+                    <h2 style={{ textAlign: "center" }}>Email: {user.user_profiles?.email}</h2>
+                    <h2 style={{ textAlign: "center" }}>Major: {user.user_profiles?.major}</h2>
+                    <h2 style={{ textAlign: "center" }}>Class of {user.user_profiles?.graduation_year}</h2>
+                    <h2 style={{ textAlign: "center" }}>"{user.user_profiles?.bio}"</h2>
+
+                    {isOwnProfile && (
+                        <div style={{ textAlign: "center", marginTop: "20px" }}>
+                            <button onClick={handleSignOut} className="logout-btn">
+                                Sign Out
+                            </button>
+                        </div>
+                    )}
                 </div>
+
+
             }
         </main>
     );

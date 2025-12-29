@@ -21,6 +21,7 @@ const SignUpPage = () => {
       setMsg(error.message);
     } else {
       setMsg('Success!');
+      navigate("/create_profile")
     }
   };
 

@@ -124,10 +124,6 @@ h1 {
   text-align: center; 
 }
 
-.link {
-  padding:1rem;
-}
-
 button {
   float: right;
   margin-right: 20px;
@@ -135,6 +131,7 @@ button {
 
 label {
   padding: 1rem;
+  padding-top: 50px;
   text-align:center;
 }
 
@@ -148,5 +145,6 @@ p {
 }
 
 .nav_foot_link {
-  color: var(--white)
+  color: var(--white);
+  padding: 1rem;
 }

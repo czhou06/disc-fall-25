@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Card from "../components/Card";
-import { CURRENT_USER } from "../constants";
 import { supabase } from "../supabaseClient";
 
 const initialHangouts = [
@@ -28,6 +27,7 @@ function HomePage() {
     });
 
     const [users, setUsers] = useState([]);
+    const [myProfile, setMyProfile] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [errorMsg, setErrorMsg] = useState("No users found or failed to load. Try refreshing");
@@ -56,6 +56,32 @@ function HomePage() {
     useEffect(() => {
         console.log('Liked items updated:', likedCards);
     }, [likedCards]);
+
+    useEffect(() => {
+        const fetchMyInfo = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+
+            if (!session) {
+                setIsLoggedIn(false);
+                setMyProfile(null);
+                return;
+            }
+
+            setIsLoggedIn(true);
+            
+            try {
+                const response = await fetch(`${API_URL}/users/${session.user.id}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setMyProfile(data);
+                }
+            } catch (error) {
+                console.error("Error fetching my profile:", error);
+            }
+        };
+
+        fetchMyInfo();
+    }, [API_URL]);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -108,7 +134,7 @@ function HomePage() {
     return (
         <main>
             <h1>
-                {isLoggedIn ? `Welcome Back, ${FirstName} ${LastName}!` : "Welcome, Guest!"}
+                {isLoggedIn && myProfile ? `Welcome Back, ${myProfile.first_name} ${myProfile.last_name}!` : "Welcome, Guest!"}
             </h1>
             <section>
                 <h2>Hangouts for You</h2>
