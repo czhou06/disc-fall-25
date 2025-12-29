@@ -4,7 +4,7 @@ function NavBar(){
   return (
     <header>
       <nav>
-        <Link to="/">CatsConnect</Link>
+        <Link class="nav_foot_link" to="/">CatsConnect</Link>
         <label htmlFor="search-bar" className="hidden">
           Who are we meeting today?
         </label>
@@ -15,13 +15,16 @@ function NavBar(){
         />
         <ul>
           <li>
-            <Link to="/">Hangouts</Link>
+            <Link class="nav_foot_link" to="/">Hangouts</Link>
           </li>
           <li>
-            <Link to="/">Friends</Link>
+            <Link class="nav_foot_link" to="/">Friends</Link>
           </li>
           <li>
-            <Link to="/profile/me">Me</Link>
+            <Link class="nav_foot_link" to="/profile/me">Me</Link>
+          </li>
+          <li>
+            <Link class="nav_foot_link" to="/login">Login</Link>
           </li>
         </ul>
       </nav>

@@ -16,7 +16,7 @@ ul {
 }
 
 a {
-  color: var(--white);
+  : var(--colorwhite);
   font-family: var(--font);
   justify-content: space-between;
 }
@@ -116,6 +116,7 @@ body {
 
 h2, h3 {
   font-family: var(--font);
+  padding: 1rem;
 }
 
 h1 {
@@ -129,5 +130,23 @@ h1 {
 
 button {
   float: right;
+  margin-right: 20px;
+}
 
+label {
+  padding: 1rem;
+  text-align:center;
+}
+
+p {
+  padding: 1rem;
+}
+
+.login_signup {
+  color:"#14b9faff";
+  padding: 1rem;
+}
+
+.nav_foot_link {
+  color: var(--white)
 }
