@@ -48,7 +48,7 @@ function LoginPage() {
             required
           />
         </div>
-        <Link to="/signup" class="login_signup">Don't have an account? Sign up</Link>
+        <Link to="/signup" className="login_signup">Don't have an account? Sign up</Link>
         <button type="submit">Log In</button>
       </form>
       {msg && <p>{msg}</p>}

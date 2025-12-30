@@ -57,6 +57,32 @@ function ProfilePage() {
         }
     };
 
+    const handleDeleteAccount = async () => {
+        const confirmDelete = window.confirm("Are you SURE? This cannot be undone.");
+    if (!confirmDelete) return;
+
+        const { data: {session} } = await supabase.auth.getSession()
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${session.access_token}`
+                }
+            });
+
+            if (response.ok) {
+                await supabase.auth.signOut();
+                navigate("/");
+            } else {
+                const responseError = await response.json();
+                alert("Couldn't delete account: " + responseError)
+            }
+        } catch (error) {
+            console.error("Network/JSON Error:", error);
+        }
+    }
+
     return (
         <main>
             {isLoading ? (
@@ -76,8 +102,11 @@ function ProfilePage() {
 
                     {isOwnProfile && (
                         <div style={{ textAlign: "center", marginTop: "20px" }}>
-                            <button onClick={handleSignOut} className="logout-btn">
+                            <button onClick={handleSignOut}>
                                 Sign Out
+                            </button>
+                            <button onClick={handleDeleteAccount} style={{ backgroundColor: '#ff4d4d', color: 'black' }}>
+                                Delete Account
                             </button>
                         </div>
                     )}

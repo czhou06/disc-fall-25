@@ -15,11 +15,6 @@ const initialPeople = [
     { id: 31, name: "Willie", dorm: "Shepard", major: "Psych", quote: "idk" }
 ];
 
-const FirstName = CURRENT_USER.first_name;
-const LastName = CURRENT_USER.last_name;
-
-
-
 function HomePage() {
     const [likedCards, setLikedCards] = useState({
         hangouts: [],

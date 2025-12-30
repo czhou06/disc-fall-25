@@ -47,7 +47,7 @@ const SignUpPage = () => {
             required
           />
         </div>
-        <Link class="login_signup" to="/login">Already have an account? Log In</Link>
+        <Link className="login_signup" to="/login">Already have an account? Log In</Link>
         <button type="submit">Sign Up</button>
       </form>
       {msg && <p>{msg}</p>}

@@ -72,73 +72,73 @@ function CreateProfilePage() {
             <p>Tell us a bit about yourself to get started.</p>
 
             <form onSubmit={handleSubmit}>
-                <label>
-                    First Name:
+                <div>
+                    <label htmlFor="firstName">First Name:</label>
                     <input
+                        id="firstName"
                         type="text"
                         name="firstName"
                         required
                         value={formData.firstName}
                         onChange={handleChange}
                     />
-                </label>
-                <br />
+                </div>
                 
-                <label>
-                    Last Name:
+                <div>
+                    <label htmlFor="lastName">Last Name:</label>
                     <input
+                        id="lastName"
                         type="text"
                         name="lastName"
                         required
                         value={formData.lastName}
                         onChange={handleChange}
                     />
-                </label>
-                <br />
+                </div>
 
-                <label>
-                    Major:
+                <div>
+                    <label htmlFor="major">Major:</label>
                     <input
+                        id="major"
                         type="text"
                         name="major"
                         value={formData.major}
                         onChange={handleChange}
                     />
-                </label>
-                <br />
+                </div>
 
-                <label>
-                    Birthday (YYYY-MM-DD):
+                <div>
+                    <label htmlFor="date_of_birth">Birthday (YYYY-MM-DD):</label>
                     <input
+                        id="date_of_birth"
                         type="text"
                         name="date_of_birth"
                         value={formData.date_of_birth}
                         onChange={handleChange}
                     />
-                </label>
-                <br />
+                </div>
 
-                <label>
-                    Graduation Year:
+                <div>
+                    <label htmlFor="graduation_year">Graduation Year:</label>
                     <input
+                        id="graduation_year"
                         type="text"
                         name="graduation_year"
                         value={formData.graduation_year}
                         onChange={handleChange}
                     />
-                </label>
-                <br />
+                </div>
 
-                <label>
-                    Quick bio about yourself:
+                <div>
+                    <label htmlFor="bio">Quick bio about yourself:</label>
                     <input
+                        id="bio"
                         type="text"
                         name="bio"
                         value={formData.bio}
                         onChange={handleChange}
                     />
-                </label>
-                <br />
+                </div>
 
                 <button type="submit">Create Profile</button>
             </form>
