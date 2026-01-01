@@ -9,7 +9,8 @@ function ProfilePage() {
     const { user: userAuth } = useAuth();
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const isOwnProfile = params.id === 'me'
+    const isOwnProfile = params.id === 'me';
+    console.log(params.id);
     const API_URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
@@ -97,7 +98,7 @@ function ProfilePage() {
                     <h1>No users found or failed to load. </h1>
                     <h1>Try refreshing</h1>
                 </div>
-            ) :
+            ) : (
                 <div>
                     <h1> {user.first_name} {user.last_name}</h1>
                     <h2 style={{ textAlign: "center" }}>Email: {user.user_profiles?.email}</h2>
@@ -114,13 +115,13 @@ function ProfilePage() {
                                 Delete Account
                             </button>
                         </div>
-                    )}
+                        )}
                 </div>
+            )
 
-
-            }
+        }
         </main>
     );
-}
+};
 
-export default ProfilePage
+export default ProfilePage;

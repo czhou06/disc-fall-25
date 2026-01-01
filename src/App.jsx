@@ -22,7 +22,6 @@ function App() {
           <Route path="signup" element={<SignupPage />} />
 
           <Route path="profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-          <Route path="profile/me" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="profile/:id" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="create_profile" element={<ProtectedRoute><CreateProfilePage /></ProtectedRoute>} />
         </Route>
