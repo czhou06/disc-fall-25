@@ -1,33 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
+import useAuth from "./AuthContext";
 
 function NavBar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    async function loggedIn() {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        setIsLoggedIn(true);
-      }
-    }
-    
-    loggedIn();    
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-  });
-
-  return () => subscription.unsubscribe();
-
-}, []);
-
-
+  const { isLoggedIn } = useAuth();
 
 return (
   <header>

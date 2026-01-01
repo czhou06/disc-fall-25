@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Card from "../components/Card";
 import { supabase } from "../supabaseClient";
+import useAuth from "../components/AuthContext"
 
 const initialHangouts = [
     { id: 10, name: "Study Session", location: "Main Library", dateTime: "10/15 3pm", organizer: "Alice" },
@@ -24,7 +25,7 @@ function HomePage() {
     const [users, setUsers] = useState([]);
     const [myProfile, setMyProfile] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const {isLoggedIn, user} = useAuth(); 
     const [errorMsg, setErrorMsg] = useState("No users found or failed to load. Try refreshing");
     const API_URL = import.meta.env.VITE_API_URL
 
@@ -56,16 +57,17 @@ function HomePage() {
         const fetchMyInfo = async () => {
             const { data: { session } } = await supabase.auth.getSession();
 
-            if (!session) {
-                setIsLoggedIn(false);
+            if (!isLoggedIn) {
                 setMyProfile(null);
                 return;
             }
-
-            setIsLoggedIn(true);
             
             try {
-                const response = await fetch(`${API_URL}/users/${session.user.id}`);
+                const response = await fetch(`${API_URL}/users/${user.id}`, {
+                    headers: {
+                        'Authorization': session ? `Bearer ${session.access_token}` : ""
+                    }
+                });
                 if (response.ok) {
                     const data = await response.json();
                     setMyProfile(data);
@@ -76,7 +78,7 @@ function HomePage() {
         };
 
         fetchMyInfo();
-    }, [API_URL]);
+    }, [API_URL, user, isLoggedIn]);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -85,19 +87,16 @@ function HomePage() {
             const { data: { session } } = await supabase.auth.getSession();
 
             try {
+                if (!isLoggedIn) {
+                    setErrorMsg("You need to log in first to see profiles.");
+                    return;
+                }
+
                 const response = await fetch(`${API_URL}/users/profiles`, {
                     headers: {
                         'Authorization': session ? `Bearer ${session.access_token}` : ""
                     }
-                });
-                
-                if (response.status === 401) {
-                    setErrorMsg("You need to log in first to see profiles.");
-                    setUsers([]); 
-                    return;
-                } else {
-                    setIsLoggedIn(true);
-                }
+                }); 
 
                 if (!response.ok) {
                     console.error("API failed:", response.status);
@@ -118,13 +117,7 @@ function HomePage() {
         }
 
         fetchUsers();
-}, [API_URL]);
-
-    useEffect(() => {
-        console.log("user data: ", users);
-    }, [users])
-
-    
+}, [API_URL]);  
 
     return (
         <main>

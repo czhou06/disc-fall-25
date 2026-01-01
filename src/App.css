@@ -16,7 +16,7 @@ ul {
 }
 
 a {
-  : var(--colorwhite);
+  color : var(--colorwhite);
   font-family: var(--font);
   justify-content: space-between;
 }

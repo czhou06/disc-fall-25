@@ -1,13 +1,15 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
-import { supabase } from "../supabaseClient"
+import { supabase } from "../supabaseClient";
+import useAuth from "../components/AuthContext";
 
 function ProfilePage() {
     const params = useParams();
     const navigate = useNavigate();
+    const { user: userAuth } = useAuth();
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [isOwnProfile, setIsOwnProfile] = useState(false); // New State to track ownership
+    const isOwnProfile = params.id === 'me'
     const API_URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
@@ -17,17 +19,20 @@ function ProfilePage() {
             const { data: { session } } = await supabase.auth.getSession();
 
             if (!id || id === 'me') {
-                if (!session) {
+                if (!userAuth) {
                     console.error("No current log-in session");
                     setIsLoading(false);
                     return;
                 }
-                id = session.user.id;
-                setIsOwnProfile(true);
+                id = userAuth.id;
             }
 
             try {
-                const response = await fetch(`${API_URL}/users/${id}`);
+                const response = await fetch(`${API_URL}/users/${id}`, {
+                    headers: {
+                        'Authorization': session ? `Bearer ${session.access_token}` : ""
+                    }
+                });
                 if (!response.ok) {
                     console.error("API failed:", response.status);
                     setUser(null)
@@ -59,9 +64,9 @@ function ProfilePage() {
 
     const handleDeleteAccount = async () => {
         const confirmDelete = window.confirm("Are you SURE? This cannot be undone.");
-    if (!confirmDelete) return;
+        if (!confirmDelete) return;
 
-        const { data: {session} } = await supabase.auth.getSession()
+        const { data: { session } } = await supabase.auth.getSession()
 
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
