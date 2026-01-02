@@ -10,7 +10,6 @@ function ProfilePage() {
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const isOwnProfile = params.id === 'me';
-    console.log(params.id);
     const API_URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
